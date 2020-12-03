@@ -10,11 +10,11 @@ function print_in_file () {
 
 function count_in_string () {
     inc=0
-    array=$(echo ${line%} | awk '{print substr($0,16)}'| sed 's/ //g')
-    if [[ $array == *","* ]] && [[ "$1" == "t" ]];then
+    array=$(echo ${line} | awk '{print substr($0,16)}'| sed 's/\[//g'| sed 's/\]//g'| sed 's/ //g')
+    if [[ $array != *"-"* ]] && [[ "$1" == "t" ]];then
         inc=$(echo $array | awk '{$0=$0","; print gsub(",",x)}')
         occurrence=$(( occurrence + $inc ))
-    elif [[ $array == *","* ]] && [[ "$1" == "u" ]];then
+    elif [[ $array != *"-"* ]] && [[ "$1" == "u" ]];then
         echo  $array | tr , '\n' >> templist.log
         occurrence=$(sort -u templist.log |wc -l)
     fi
